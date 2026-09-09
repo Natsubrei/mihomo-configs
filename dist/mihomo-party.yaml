@@ -1,0 +1,515 @@
+# 自动生成；修改 templates/ 中的源文件后运行 python -m tools.render build。
+# mihomo-party YAML 覆写入口；不是完整内核配置。
+
+profile:
+  store-selected: true
+proxy-groups:
+- name: 节点选择
+  type: select
+  include-all: true
+  exclude-filter: (?i)剩余流量|剩餘流量|套餐到期|到期时间|到期時間|距离.*重置|距離.*重置|流量重置|重置时间|重置時間|订阅地址|訂閱地址|官网地址|官網地址|(^|[^A-Za-z])(traffic[ _-]*(left|remaining)|expire[sd]?|expiry)([^A-Za-z]|$)
+  empty-fallback: REJECT
+  proxies:
+  - 故障转移
+  - 自动选择
+  - 香港节点
+  - 台湾节点
+  - 日本节点
+  - 狮城节点
+  - 美国节点
+  - 韩国节点
+  - 德国节点
+- name: 故障转移
+  type: fallback
+  include-all: true
+  exclude-filter: (?i)剩余流量|剩餘流量|套餐到期|到期时间|到期時間|距离.*重置|距離.*重置|流量重置|重置时间|重置時間|订阅地址|訂閱地址|官网地址|官網地址|(^|[^A-Za-z])(traffic[ _-]*(left|remaining)|expire[sd]?|expiry)([^A-Za-z]|$)
+  empty-fallback: REJECT
+  url: https://www.gstatic.com/generate_204
+  interval: 300
+  timeout: 5000
+  expected-status: 204
+  lazy: false
+  max-failed-times: 3
+- name: 自动选择
+  type: url-test
+  include-all: true
+  exclude-filter: (?i)剩余流量|剩餘流量|套餐到期|到期时间|到期時間|距离.*重置|距離.*重置|流量重置|重置时间|重置時間|订阅地址|訂閱地址|官网地址|官網地址|(^|[^A-Za-z])(traffic[ _-]*(left|remaining)|expire[sd]?|expiry)([^A-Za-z]|$)
+  empty-fallback: REJECT
+  url: https://www.gstatic.com/generate_204
+  interval: 300
+  timeout: 5000
+  expected-status: 204
+  tolerance: 100
+  lazy: true
+  max-failed-times: 3
+- name: OpenAI
+  type: select
+  include-all: true
+  exclude-filter: (?i)剩余流量|剩餘流量|套餐到期|到期时间|到期時間|距离.*重置|距離.*重置|流量重置|重置时间|重置時間|订阅地址|訂閱地址|官网地址|官網地址|(^|[^A-Za-z])(traffic[ _-]*(left|remaining)|expire[sd]?|expiry)([^A-Za-z]|$)
+  empty-fallback: REJECT
+  proxies:
+  - 节点选择
+- name: 电报消息
+  type: select
+  include-all: true
+  exclude-filter: (?i)剩余流量|剩餘流量|套餐到期|到期时间|到期時間|距离.*重置|距離.*重置|流量重置|重置时间|重置時間|订阅地址|訂閱地址|官网地址|官網地址|(^|[^A-Za-z])(traffic[ _-]*(left|remaining)|expire[sd]?|expiry)([^A-Za-z]|$)
+  empty-fallback: REJECT
+  proxies:
+  - 节点选择
+- name: 油管视频
+  type: select
+  include-all: true
+  exclude-filter: (?i)剩余流量|剩餘流量|套餐到期|到期时间|到期時間|距离.*重置|距離.*重置|流量重置|重置时间|重置時間|订阅地址|訂閱地址|官网地址|官網地址|(^|[^A-Za-z])(traffic[ _-]*(left|remaining)|expire[sd]?|expiry)([^A-Za-z]|$)
+  empty-fallback: REJECT
+  proxies:
+  - 节点选择
+- name: 奈飞视频
+  type: select
+  include-all: true
+  exclude-filter: (?i)剩余流量|剩餘流量|套餐到期|到期时间|到期時間|距离.*重置|距離.*重置|流量重置|重置时间|重置時間|订阅地址|訂閱地址|官网地址|官網地址|(^|[^A-Za-z])(traffic[ _-]*(left|remaining)|expire[sd]?|expiry)([^A-Za-z]|$)
+  empty-fallback: REJECT
+  proxies:
+  - 节点选择
+- name: 巴哈姆特
+  type: select
+  include-all: true
+  exclude-filter: (?i)剩余流量|剩餘流量|套餐到期|到期时间|到期時間|距离.*重置|距離.*重置|流量重置|重置时间|重置時間|订阅地址|訂閱地址|官网地址|官網地址|(^|[^A-Za-z])(traffic[ _-]*(left|remaining)|expire[sd]?|expiry)([^A-Za-z]|$)
+  empty-fallback: REJECT
+  proxies:
+  - 节点选择
+  - 台湾节点
+- name: 哔哩哔哩
+  type: select
+  proxies:
+  - DIRECT
+  - 台湾节点
+  - 香港节点
+  - 节点选择
+- name: 国外媒体
+  type: select
+  proxies:
+  - 节点选择
+  - 自动选择
+- name: 国内媒体
+  type: select
+  proxies:
+  - DIRECT
+  - 节点选择
+- name: 谷歌FCM
+  type: select
+  proxies:
+  - 节点选择
+  - DIRECT
+- name: 微软Bing
+  type: select
+  proxies:
+  - 节点选择
+  - DIRECT
+- name: 微软云盘
+  type: select
+  proxies:
+  - DIRECT
+  - 节点选择
+- name: 微软服务
+  type: select
+  proxies:
+  - DIRECT
+  - 节点选择
+- name: 苹果服务
+  type: select
+  proxies:
+  - DIRECT
+  - 节点选择
+- name: 游戏平台
+  type: select
+  proxies:
+  - DIRECT
+  - 节点选择
+- name: 网易音乐
+  type: select
+  proxies:
+  - DIRECT
+  - 节点选择
+- name: 全球直连
+  type: select
+  proxies:
+  - DIRECT
+  - 节点选择
+- name: 广告拦截
+  type: select
+  proxies:
+  - REJECT
+  - DIRECT
+- name: 应用净化
+  type: select
+  proxies:
+  - REJECT
+  - DIRECT
+- name: 漏网之鱼
+  type: select
+  proxies:
+  - 节点选择
+  - DIRECT
+- name: 规则更新
+  type: select
+  proxies:
+  - 节点选择
+  - DIRECT
+- name: 香港节点
+  type: url-test
+  include-all: true
+  filter: (?i)🇭🇰|香港|Hong[ _-]?Kong|(^|[^A-Za-z])HK([^A-Za-z]|$)
+  exclude-filter: (?i)剩余流量|剩餘流量|套餐到期|到期时间|到期時間|距离.*重置|距離.*重置|流量重置|重置时间|重置時間|订阅地址|訂閱地址|官网地址|官網地址|(^|[^A-Za-z])(traffic[ _-]*(left|remaining)|expire[sd]?|expiry)([^A-Za-z]|$)
+  empty-fallback: REJECT
+  url: https://www.gstatic.com/generate_204
+  interval: 300
+  timeout: 5000
+  expected-status: 204
+  tolerance: 100
+  lazy: true
+- name: 台湾节点
+  type: url-test
+  include-all: true
+  filter: (?i)🇹🇼|台湾|台灣|台北|臺北|Taiwan|Taipei|Taichung|(^|[^A-Za-z])TW([^A-Za-z]|$)
+  exclude-filter: (?i)剩余流量|剩餘流量|套餐到期|到期时间|到期時間|距离.*重置|距離.*重置|流量重置|重置时间|重置時間|订阅地址|訂閱地址|官网地址|官網地址|(^|[^A-Za-z])(traffic[ _-]*(left|remaining)|expire[sd]?|expiry)([^A-Za-z]|$)
+  empty-fallback: REJECT
+  url: https://www.gstatic.com/generate_204
+  interval: 300
+  timeout: 5000
+  expected-status: 204
+  tolerance: 100
+  lazy: true
+- name: 日本节点
+  type: url-test
+  include-all: true
+  filter: (?i)🇯🇵|日本|东京|東京|大阪|Japan|Tokyo|Osaka|(^|[^A-Za-z])JP([^A-Za-z]|$)
+  exclude-filter: (?i)剩余流量|剩餘流量|套餐到期|到期时间|到期時間|距离.*重置|距離.*重置|流量重置|重置时间|重置時間|订阅地址|訂閱地址|官网地址|官網地址|(^|[^A-Za-z])(traffic[ _-]*(left|remaining)|expire[sd]?|expiry)([^A-Za-z]|$)
+  empty-fallback: REJECT
+  url: https://www.gstatic.com/generate_204
+  interval: 300
+  timeout: 5000
+  expected-status: 204
+  tolerance: 100
+  lazy: true
+- name: 狮城节点
+  type: url-test
+  include-all: true
+  filter: (?i)🇸🇬|新加坡|狮城|獅城|Singapore|(^|[^A-Za-z])SG([^A-Za-z]|$)
+  exclude-filter: (?i)剩余流量|剩餘流量|套餐到期|到期时间|到期時間|距离.*重置|距離.*重置|流量重置|重置时间|重置時間|订阅地址|訂閱地址|官网地址|官網地址|(^|[^A-Za-z])(traffic[ _-]*(left|remaining)|expire[sd]?|expiry)([^A-Za-z]|$)
+  empty-fallback: REJECT
+  url: https://www.gstatic.com/generate_204
+  interval: 300
+  timeout: 5000
+  expected-status: 204
+  tolerance: 100
+  lazy: true
+- name: 美国节点
+  type: url-test
+  include-all: true
+  filter: (?i)🇺🇸|美国|美國|洛杉矶|洛杉磯|硅谷|矽谷|西雅图|西雅圖|圣何塞|聖何塞|United[ _-]?States|California|Los[ _-]?Angeles|San[ _-]?Jose|Seattle|New[
+    _-]?York|(^|[^A-Za-z])(US|USA)([^A-Za-z]|$)
+  exclude-filter: (?i)剩余流量|剩餘流量|套餐到期|到期时间|到期時間|距离.*重置|距離.*重置|流量重置|重置时间|重置時間|订阅地址|訂閱地址|官网地址|官網地址|(^|[^A-Za-z])(traffic[ _-]*(left|remaining)|expire[sd]?|expiry)([^A-Za-z]|$)
+  empty-fallback: REJECT
+  url: https://www.gstatic.com/generate_204
+  interval: 300
+  timeout: 5000
+  expected-status: 204
+  tolerance: 100
+  lazy: true
+- name: 韩国节点
+  type: url-test
+  include-all: true
+  filter: (?i)🇰🇷|韩国|韓國|首尔|首爾|仁川|Korea|Seoul|Incheon|(^|[^A-Za-z])(KR|KOR)([^A-Za-z]|$)
+  exclude-filter: (?i)剩余流量|剩餘流量|套餐到期|到期时间|到期時間|距离.*重置|距離.*重置|流量重置|重置时间|重置時間|订阅地址|訂閱地址|官网地址|官網地址|(^|[^A-Za-z])(traffic[ _-]*(left|remaining)|expire[sd]?|expiry)([^A-Za-z]|$)
+  empty-fallback: REJECT
+  url: https://www.gstatic.com/generate_204
+  interval: 300
+  timeout: 5000
+  expected-status: 204
+  tolerance: 100
+  lazy: true
+- name: 德国节点
+  type: url-test
+  include-all: true
+  filter: (?i)🇩🇪|德国|德國|法兰克福|法蘭克福|Germany|Frankfurt|Berlin|(^|[^A-Za-z])(DE|GER)([^A-Za-z]|$)
+  exclude-filter: (?i)剩余流量|剩餘流量|套餐到期|到期时间|到期時間|距离.*重置|距離.*重置|流量重置|重置时间|重置時間|订阅地址|訂閱地址|官网地址|官網地址|(^|[^A-Za-z])(traffic[ _-]*(left|remaining)|expire[sd]?|expiry)([^A-Za-z]|$)
+  empty-fallback: REJECT
+  url: https://www.gstatic.com/generate_204
+  interval: 300
+  timeout: 5000
+  expected-status: 204
+  tolerance: 100
+  lazy: true
+rule-providers!:
+  LocalAreaNetwork:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    proxy: 规则更新
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/LocalAreaNetwork.list
+    path: ./ruleset/generic/LocalAreaNetwork.list
+  UnBan:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    proxy: 规则更新
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/UnBan.list
+    path: ./ruleset/generic/UnBan.list
+  BanAD:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    proxy: 规则更新
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/BanAD.list
+    path: ./ruleset/generic/BanAD.list
+  BanProgramAD:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    proxy: 规则更新
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/BanProgramAD.list
+    path: ./ruleset/generic/BanProgramAD.list
+  GoogleFCM:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    proxy: 规则更新
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/GoogleFCM.list
+    path: ./ruleset/generic/GoogleFCM.list
+  GoogleCN:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    proxy: 规则更新
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/GoogleCN.list
+    path: ./ruleset/generic/GoogleCN.list
+  SteamCN:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    proxy: 规则更新
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/SteamCN.list
+    path: ./ruleset/generic/SteamCN.list
+  Bing:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    proxy: 规则更新
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Bing.list
+    path: ./ruleset/generic/Bing.list
+  OneDrive:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    proxy: 规则更新
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/OneDrive.list
+    path: ./ruleset/generic/OneDrive.list
+  Microsoft:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    proxy: 规则更新
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Microsoft.list
+    path: ./ruleset/generic/Microsoft.list
+  Apple:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    proxy: 规则更新
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Apple.list
+    path: ./ruleset/generic/Apple.list
+  Telegram:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    proxy: 规则更新
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Telegram.list
+    path: ./ruleset/generic/Telegram.list
+  OpenAI:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    proxy: 规则更新
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/OpenAi.list
+    path: ./ruleset/generic/OpenAI.list
+  NetEaseMusic:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    proxy: 规则更新
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/NetEaseMusic.list
+    path: ./ruleset/generic/NetEaseMusic.list
+  Epic:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    proxy: 规则更新
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/Epic.list
+    path: ./ruleset/generic/Epic.list
+  Origin:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    proxy: 规则更新
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/Origin.list
+    path: ./ruleset/generic/Origin.list
+  Sony:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    proxy: 规则更新
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/Sony.list
+    path: ./ruleset/generic/Sony.list
+  Steam:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    proxy: 规则更新
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/Steam.list
+    path: ./ruleset/generic/Steam.list
+  Nintendo:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    proxy: 规则更新
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/Nintendo.list
+    path: ./ruleset/generic/Nintendo.list
+  YouTube:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    proxy: 规则更新
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/YouTube.list
+    path: ./ruleset/generic/YouTube.list
+  Netflix:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    proxy: 规则更新
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/Netflix.list
+    path: ./ruleset/generic/Netflix.list
+  Bahamut:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    proxy: 规则更新
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/Bahamut.list
+    path: ./ruleset/generic/Bahamut.list
+  BilibiliHMT:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    proxy: 规则更新
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/BilibiliHMT.list
+    path: ./ruleset/generic/BilibiliHMT.list
+  Bilibili:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    proxy: 规则更新
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/Bilibili.list
+    path: ./ruleset/generic/Bilibili.list
+  ChinaMedia:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    proxy: 规则更新
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/ChinaMedia.list
+    path: ./ruleset/generic/ChinaMedia.list
+  ProxyMedia:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    proxy: 规则更新
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/ProxyMedia.list
+    path: ./ruleset/generic/ProxyMedia.list
+  ProxyGFWlist:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    proxy: 规则更新
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/ProxyGFWlist.list
+    path: ./ruleset/generic/ProxyGFWlist.list
+  ChinaDomain:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    proxy: 规则更新
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/ChinaDomain.list
+    path: ./ruleset/generic/ChinaDomain.list
+  ChinaCompanyIp:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    proxy: 规则更新
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/ChinaCompanyIp.list
+    path: ./ruleset/generic/ChinaCompanyIp.list
+  Download:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    proxy: 规则更新
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Download.list
+    path: ./ruleset/generic/Download.list
+rules:
+- RULE-SET,LocalAreaNetwork,全球直连
+- RULE-SET,UnBan,全球直连
+- RULE-SET,BanAD,广告拦截
+- RULE-SET,BanProgramAD,应用净化
+- RULE-SET,GoogleFCM,谷歌FCM
+- RULE-SET,GoogleCN,全球直连
+- RULE-SET,SteamCN,全球直连
+- RULE-SET,Bing,微软Bing
+- RULE-SET,OneDrive,微软云盘
+- RULE-SET,Microsoft,微软服务
+- RULE-SET,Apple,苹果服务
+- RULE-SET,Telegram,电报消息
+- RULE-SET,OpenAI,OpenAI
+- RULE-SET,NetEaseMusic,网易音乐
+- RULE-SET,Epic,游戏平台
+- RULE-SET,Origin,游戏平台
+- RULE-SET,Sony,游戏平台
+- RULE-SET,Steam,游戏平台
+- RULE-SET,Nintendo,游戏平台
+- RULE-SET,YouTube,油管视频
+- RULE-SET,Netflix,奈飞视频
+- RULE-SET,Bahamut,巴哈姆特
+- RULE-SET,BilibiliHMT,哔哩哔哩
+- RULE-SET,Bilibili,哔哩哔哩
+- RULE-SET,ChinaMedia,国内媒体
+- RULE-SET,ProxyMedia,国外媒体
+- RULE-SET,ProxyGFWlist,节点选择
+- RULE-SET,ChinaDomain,全球直连
+- RULE-SET,ChinaCompanyIp,全球直连
+- RULE-SET,Download,全球直连
+- MATCH,漏网之鱼

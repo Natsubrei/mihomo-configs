@@ -1,0 +1,18 @@
+# Linux 原生入口默认值；与 templates/policy.yaml 合成 dist/mihomo-linux.yaml。
+# 仅提供本机 HTTP/SOCKS 显式代理，不自动接管系统网络。
+mixed-port: 7890
+allow-lan: false
+bind-address: 127.0.0.1
+mode: rule
+log-level: info
+ipv6: false
+# 默认关闭控制 API，避免无认证接口；可在本地私有配置中启用并设置 secret。
+external-controller: ''
+tun:
+  enable: false
+# 默认依赖系统解析；如有需要，在本地私有配置中显式启用并配置 DNS。
+dns:
+  enable: false
+# 公开模板无节点，代理分组会拒绝连接，不会静默直连。
+proxies: []
+proxy-providers: {}

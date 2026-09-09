@@ -1,0 +1,35 @@
+# Python / local development
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Never publish subscriptions, generated runtime configs, credentials or caches
+.env
+.env.*
+!.env.example
+private/
+local/
+profiles/
+subscriptions/
+providers/
+ruleset/
+work.yaml
+config.yaml
+config.next.yaml
+config.generated.yaml
+private.yaml
+.mihomo-*.yaml
+cache.db
+*.bak
+*.bak.*
+*.log
+*.pem
+*.key
+mihomo
+mihomo.exe

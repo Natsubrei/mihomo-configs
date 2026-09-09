@@ -1,0 +1,37 @@
+# 复制到仓库外（例如 ~/.config/mihomo/private.yaml），再填写真实订阅。
+# 不要直接在公开仓库里的这个示例文件中填写 token、UUID 或密码。
+# 本文件不是完整运行配置；使用 python -m tools.render linux 合成。
+proxy-providers:
+  subscription:
+    type: http
+    url: 'https://example.invalid/replace-with-your-private-subscription'
+    path: ./providers/subscription.yaml
+    interval: 3600
+    # 订阅首次下载需独立可达，不能依赖尚未下载的自身节点。
+    proxy: DIRECT
+    health-check:
+      enable: true
+      url: https://www.gstatic.com/generate_204
+      interval: 300
+      timeout: 5000
+      expected-status: 204
+      lazy: true
+
+# 多机场：在 proxy-providers 下添加不同名称的条目，并使用不同 path。
+# 内联节点：也可用顶层 proxies 列表提供节点；无需指定 proxy-providers 名称。
+# 文件型 provider 的 path 相对于 mihomo -d 工作目录，生成器不会复制节点文件。
+
+# 如果 7890 已被占用，可在本地启用：
+# mixed-port: 17890
+
+# 如需 API 手动选节点，仅监听本机并设置自己的强随机密钥：
+# external-controller: '127.0.0.1:9090'
+# secret: '请替换为本地生成的强随机密钥'
+
+# 自定义 DNS 时，记得显式 enable: true；示例地址请按网络环境选择。
+# dns:
+#   enable: true
+#   enhanced-mode: redir-host
+#   default-nameserver: [223.5.5.5, 119.29.29.29]
+#   nameserver: ['https://dns.alidns.com/dns-query', 'https://doh.pub/dns-query']
+#   proxy-server-nameserver: ['https://dns.alidns.com/dns-query', 'https://doh.pub/dns-query']

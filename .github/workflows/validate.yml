@@ -1,0 +1,70 @@
+name: Validate client entries
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  PYTHONUTF8: '1'
+  PYTHONIOENCODING: utf-8
+
+jobs:
+  workflow:
+    name: Workflow syntax and expressions
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker://rhysd/actionlint:1.7.7
+
+  unit:
+    name: YAML and unit tests (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - run: python -m pip install -r requirements.txt
+      - run: python -m tools.render build --check
+      - run: python tools/validate.py
+      - run: python -m unittest discover -v
+
+  core:
+    name: Offline mihomo integration tests
+    runs-on: ubuntu-latest
+    env:
+      MIHOMO_VERSION: v1.19.30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - run: python -m pip install -r requirements.txt
+      - name: Download pinned mihomo and verify SHA-256
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$RUNNER_TEMP"
+          curl --fail --location --retry 3 --connect-timeout 15 --max-time 180 \
+            "https://github.com/MetaCubeX/mihomo/releases/download/${MIHOMO_VERSION}/mihomo-linux-amd64-v1-${MIHOMO_VERSION}.gz" \
+            --output mihomo.gz
+          # Official release asset digest; update together with MIHOMO_VERSION.
+          echo 'cbe553d0319a414bd3a372c5976a252155b2c4882b66bce88a4d6bba9571a553  mihomo.gz' | sha256sum --check
+          gzip --decompress mihomo.gz
+          MIHOMO_BIN="$RUNNER_TEMP/mihomo"
+          chmod +x "$MIHOMO_BIN"
+          "$MIHOMO_BIN" -v
+          # Export to subsequent steps; runner context is unavailable in job-level env.
+          echo "MIHOMO_BIN=$MIHOMO_BIN" >> "$GITHUB_ENV"
+      - run: python -m tools.render build --check
+      - run: python tools/validate.py
+      - run: python -m unittest discover -v
