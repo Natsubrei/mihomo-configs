@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""离线检查 Party 入口；双入口一致性由 tools.render build --check 校验。"""
+"""离线检查 Party 入口；三个入口的一致性由 tools.render build --check 校验。"""
 from __future__ import annotations
 
 import argparse

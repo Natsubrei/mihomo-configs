@@ -10,7 +10,7 @@ class RepositoryTests(unittest.TestCase):
     def test_public_entries_are_in_dist(self):
         self.assertEqual(
             {path.relative_to(ROOT).as_posix() for path in public_entries()},
-            {"dist/mihomo-party.yaml", "dist/mihomo-linux.yaml"},
+            {"dist/mihomo-party.yaml", "dist/mihomo-linux.yaml", "dist/flclash.js"},
         )
 
     def test_relative_document_links_exist(self):
@@ -29,7 +29,8 @@ class RepositoryTests(unittest.TestCase):
     def test_download_links_use_direct_raw_urls(self):
         base = "https://raw.githubusercontent.com/Natsubrei/mihomo-configs/main/dist/"
         documents = {
-            "README.md": {"mihomo-party.yaml", "mihomo-linux.yaml"},
+            "README.md": {"mihomo-party.yaml", "mihomo-linux.yaml", "flclash.js"},
+            "docs/flclash.md": {"flclash.js"},
             "docs/mihomo-party.md": {"mihomo-party.yaml"},
             "docs/linux.md": {"mihomo-linux.yaml"},
         }

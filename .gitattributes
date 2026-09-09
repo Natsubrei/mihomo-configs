@@ -3,4 +3,5 @@
 *.yml text eol=lf
 *.md text eol=lf
 *.py text eol=lf
+*.js text eol=lf
 *.txt text eol=lf

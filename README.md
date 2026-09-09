@@ -1,6 +1,6 @@
 # mihomo-configs
 
-给 mihomo-party 和 Linux mihomo 使用的通用分流配置：自动分组、故障转移、按应用选节点。**请自备可用订阅，本项目不提供节点。**
+给 mihomo-party、Linux mihomo 和 FlClash 使用的通用分流配置：自动分组、故障转移、按应用选节点。**请自备可用订阅，本项目不提供节点。**
 
 ## 选择你的入口
 
@@ -8,10 +8,11 @@
 |---|---|---|
 | mihomo-party | [YAML 覆写](https://raw.githubusercontent.com/Natsubrei/mihomo-configs/main/dist/mihomo-party.yaml) | [导入与更新](docs/mihomo-party.md) |
 | Linux 原生 mihomo | [原生配置模板](https://raw.githubusercontent.com/Natsubrei/mihomo-configs/main/dist/mihomo-linux.yaml) | [填写订阅与运行](docs/linux.md) |
+| FlClash（含 Android） | [JavaScript 覆写](https://raw.githubusercontent.com/Natsubrei/mihomo-configs/main/dist/flclash.js) | [脚本导入与更新](docs/flclash.md) |
 
-链接直接打开原始 YAML；需要本地文件时，请另存为 `.yaml`。
+链接直接打开原始文件；需要本地文件时，请保留 `.yaml` / `.js` 扩展名。
 
-两个入口使用相同的分流策略，**不要把 Party 覆写当作 Linux 完整配置使用**。
+三个入口使用相同的分流策略，但格式不能混用：**Party YAML 覆写不是完整配置，FlClash 应使用 JS 脚本入口**。
 
 ## mihomo-party：导入即可使用
 
@@ -26,6 +27,20 @@ https://raw.githubusercontent.com/Natsubrei/mihomo-configs/main/dist/mihomo-part
 ```
 
 订阅更新后，只要关联仍在，覆写会继续应用。
+
+## FlClash：给现有订阅关联脚本
+
+1. 导入自己的订阅，确认节点可用。
+2. 在该配置的「覆写」中选「脚本」→「前往配置脚本」，添加脚本。
+3. 在编辑器菜单「外部获取 → 通过URL导入」填入下面的地址，命名并保存：
+
+```text
+https://raw.githubusercontent.com/Natsubrei/mihomo-configs/main/dist/flclash.js
+```
+
+4. 返回覆写页，选中脚本，应用配置并切到**规则模式**。
+
+没有外部获取入口时，可下载 `.js` 全文粘贴到脚本编辑器。订阅更新会重新应用脚本；策略更新需要手动重新导入脚本内容。普通使用不需要 Python 或 Node.js，详见 [Android 操作指南](docs/flclash.md)。
 
 ## Linux：填写订阅后生成配置
 

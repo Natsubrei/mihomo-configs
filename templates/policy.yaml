@@ -1,6 +1,6 @@
-# 两个客户端入口共用的策略源；不是独立运行配置。
+# 三个客户端入口共用的策略源；不是独立运行配置。
 # 修改此文件后运行：python -m tools.render build
-# 构建 mihomo-party 覆写和 Linux 原生配置，不包含节点或私人订阅。
+# 构建 mihomo-party 覆写、Linux 原生配置和 FlClash 脚本，不包含节点或私人订阅。
 # 要求内核支持 include-all、exclude-filter、empty-fallback；已测版本见 README。
 
 profile:

@@ -1,6 +1,6 @@
 # 分流策略与常见问题
 
-两个入口共用 [`templates/policy.yaml`](../templates/policy.yaml)：30 个策略组、30 个 ACL4SSR 规则集、31 条分流规则。默认策略面向中国大陆日常使用，不代表适合所有网络。
+三个入口共用 [`templates/policy.yaml`](../templates/policy.yaml)：30 个策略组、30 个 ACL4SSR 规则集、31 条分流规则。默认策略面向中国大陆日常使用，不代表适合所有网络。
 
 ## 默认如何选节点？
 

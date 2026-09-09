@@ -22,6 +22,7 @@ from urllib.request import ProxyHandler, Request, build_opener
 import yaml
 
 from tests.fixtures import INFO_NAMES, NAMES, REGIONS, apply_party_patch, dummy_nodes
+from tests.flclash import NODE, apply_flclash_script
 from tools.validate import load_config
 from tools.render import LINUX_ENTRY, merge_mapping, render_linux
 
@@ -84,6 +85,8 @@ class CoreTests(unittest.TestCase):
                 config = merge_mapping(load_config(LINUX_ENTRY), base)
             elif target == "linux-render":
                 config = render_linux(base)
+            elif target == "flclash":
+                config, = apply_flclash_script([base])
             else:
                 config = apply_party_patch(base, patch)
             for provider in config.get("proxy-providers", {}).values():
@@ -180,6 +183,19 @@ class CoreTests(unittest.TestCase):
 
     def test_empty_subscription_is_reject_not_direct(self):
         self.run_case([])
+
+    @unittest.skipUnless(NODE, "FlClash 内核测试需要 Node.js")
+    def test_flclash_script_with_inline_and_provider_nodes(self):
+        self.run_case(["US01", "未知地区线路 01"], from_provider=True,
+                      provider_names=NAMES + INFO_NAMES, target="flclash")
+
+    @unittest.skipUnless(NODE, "FlClash 内核测试需要 Node.js")
+    def test_flclash_script_empty_subscription_fails_closed(self):
+        self.run_case([], target="flclash")
+
+    @unittest.skipUnless(NODE, "FlClash 内核测试需要 Node.js")
+    def test_flclash_script_all_nodes_filtered(self):
+        self.run_case(INFO_NAMES, target="flclash")
 
     def test_linux_native_entry_accepts_inline_nodes(self):
         self.run_case(NAMES + INFO_NAMES, target="linux-entry")

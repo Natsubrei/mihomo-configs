@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""从同一策略源构建 Party / Linux 入口；本地私有合成不访问网络、不加载服务。"""
+"""从同一策略源构建 Party / Linux / FlClash 入口；生成过程不联网、不加载服务。"""
 from __future__ import annotations
 
 import argparse
+import json
 import os
 import re
 import tempfile
@@ -18,6 +19,7 @@ POLICY = ROOT / "templates/policy.yaml"
 LINUX_BASE = ROOT / "templates/linux-base.yaml"
 PARTY_ENTRY = CONFIG
 LINUX_ENTRY = ROOT / "dist/mihomo-linux.yaml"
+FLCLASH_ENTRY = ROOT / "dist/flclash.js"
 PRIVATE_KEYS = {
     "proxies", "proxy-providers", "mixed-port", "allow-lan", "bind-address",
     "external-controller", "secret", "authentication", "dns", "tun", "ipv6",
@@ -57,6 +59,31 @@ def render_party(policy: dict | None = None) -> dict:
     party = {("rule-providers!" if key == "rule-providers" else key): value for key, value in data.items()}
     validate(party)
     return party
+
+
+def render_flclash(policy: dict | None = None) -> str:
+    party = render_party(policy)  # 复用共用策略校验，不读取 dist/ 中的生成物。
+    patch = {
+        "proxy-groups": party["proxy-groups"],
+        "rule-providers": party["rule-providers!"],
+        "rules": party["rules"],
+    }
+    payload = json.dumps(patch, ensure_ascii=False, indent=2, allow_nan=False)
+    # JSON 字符串中的行分隔符需转义，兼容客户端 JavaScript 引擎。
+    payload = payload.replace("\u2028", "\\u2028").replace("\u2029", "\\u2029")
+    payload = payload.replace("\n", "\n  ")
+    return (
+        "// 自动生成；修改 templates/ 中的策略后运行 python -m tools.render flclash。\n"
+        "// FlClash 脚本覆写；不是订阅或 YAML 配置，不包含私人节点。\n"
+        "// 仅替换策略组、规则集和规则；节点、DNS、TUN 及策略选择由客户端管理。\n\n"
+        "function main(config) {\n"
+        f"  const policy = {payload};\n"
+        "  config['proxy-groups'] = policy['proxy-groups'];\n"
+        "  config['rule-providers'] = policy['rule-providers'];\n"
+        "  config['rules'] = policy['rules'];\n"
+        "  return config;\n"
+        "}\n"
+    )
 
 
 def render_linux(private: dict | None = None) -> dict:
@@ -154,11 +181,12 @@ def public_entries() -> dict[Path, str]:
     return {
         PARTY_ENTRY: dump_yaml(render_party(), common + "# mihomo-party YAML 覆写入口；不是完整内核配置。\n\n"),
         LINUX_ENTRY: dump_yaml(render_linux(), common + "# Linux mihomo 原生配置入口；无节点，使用前需接入本地私有订阅。\n\n"),
+        FLCLASH_ENTRY: render_flclash(),
     }
 
 
-def build(check=False) -> None:
-    entries = public_entries()
+def build(check=False, *, flclash_only=False) -> None:
+    entries = {FLCLASH_ENTRY: render_flclash()} if flclash_only else public_entries()
     if check:
         stale = [path.name for path, text in entries.items()
                  if not path.is_file() or path.read_text(encoding="utf-8") != text]
@@ -217,17 +245,22 @@ def generate_private(private_path: Path, output: Path, force=False) -> None:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest="command", required=True)
-    public = commands.add_parser("build", help="构建两个不含凭据的公共入口")
+    public = commands.add_parser("build", help="构建三个不含凭据的公共入口")
     public.add_argument("--check", action="store_true", help="仅检查生成物是否与源文件一致")
+    flclash = commands.add_parser("flclash", help="仅构建 dist/flclash.js 脚本覆写")
+    flclash.add_argument("--check", action="store_true", help="仅检查脚本是否与源文件一致")
     linux = commands.add_parser("linux", help="从仓库外的私有文件生成完整 Linux 配置")
     linux.add_argument("--private", type=Path, required=True)
     linux.add_argument("--output", type=Path, required=True)
     linux.add_argument("--force", action="store_true", help="允许原子替换已存在的输出；不会自动加载服务")
     args = parser.parse_args()
     try:
-        if args.command == "build":
-            build(check=args.check)
-            print("两个公共入口校验一致" if args.check else "已构建 Party 和 Linux 公共入口")
+        if args.command in {"build", "flclash"}:
+            build(check=args.check, flclash_only=args.command == "flclash")
+            if args.command == "flclash":
+                print("FlClash 脚本校验一致" if args.check else "已生成 dist/flclash.js")
+            else:
+                print("三个公共入口校验一致" if args.check else "已构建 Party、Linux 和 FlClash 公共入口")
         else:
             generate_private(args.private, args.output, force=args.force)
             print("已生成本地 Linux 配置；未联网、未修改服务。请先运行 mihomo -t 校验再加载。")
