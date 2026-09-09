@@ -26,6 +26,23 @@ class RepositoryTests(unittest.TestCase):
                     self.assertTrue(target.is_relative_to(ROOT.resolve()))
                     self.assertTrue(target.is_file(), "本地文档链接不存在")
 
+    def test_download_links_use_direct_raw_urls(self):
+        base = "https://raw.githubusercontent.com/Natsubrei/mihomo-configs/main/dist/"
+        documents = {
+            "README.md": {"mihomo-party.yaml", "mihomo-linux.yaml"},
+            "docs/mihomo-party.md": {"mihomo-party.yaml"},
+            "docs/linux.md": {"mihomo-linux.yaml"},
+        }
+        for name, entries in documents.items():
+            text = (ROOT / name).read_text(encoding="utf-8")
+            links = re.findall(r"\[[^\]]*\]\(([^)]+)\)", text)
+            with self.subTest(document=name):
+                self.assertTrue({base + entry for entry in entries} <= set(links))
+                # Download links must bypass GitHub's blob-page navigation.
+                self.assertFalse(any("raw=" in urlsplit(link).query for link in links))
+                for entry in entries:
+                    self.assertTrue((ROOT / "dist" / entry).is_file())
+
     def test_workflow_dependencies_exist(self):
         workflow = (ROOT / ".github/workflows/validate.yml").read_text(encoding="utf-8")
         requirements = re.findall(r"pip install -r (\S+)", workflow)

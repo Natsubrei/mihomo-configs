@@ -2,7 +2,7 @@
 
 前提：已安装 mihomo，运行 `mihomo -v` 确认版本。未安装时，可从 [官方 Releases](https://github.com/MetaCubeX/mihomo/releases) 获取适合系统架构的内核并校验下载文件；本项目测试版本为 v1.19.30，不自动安装内核。
 
-入口文件：[`dist/mihomo-linux.yaml`](../dist/mihomo-linux.yaml?raw=1)。它是**标准 mihomo 配置**，不是客户端覆写，不包含 `rule-providers!` 等特殊语法。
+入口文件：[`dist/mihomo-linux.yaml`](https://raw.githubusercontent.com/Natsubrei/mihomo-configs/main/dist/mihomo-linux.yaml)。它是**标准 mihomo 配置**，不是客户端覆写，不包含 `rule-providers!` 等特殊语法。
 
 与 mihomo-party 入口使用同一份 [`templates/policy.yaml`](../templates/policy.yaml)。公开模板没有私人节点；使用前需接入自己的 `proxies` / `proxy-providers`。没有候选时代理组会拒绝连接，显式直连规则仍可工作。
 

@@ -1,6 +1,6 @@
 # mihomo-party 使用指南
 
-入口：[`dist/mihomo-party.yaml`](../dist/mihomo-party.yaml?raw=1)。这是 **YAML 覆写**，不是完整订阅或原生内核配置；导入它不需要 Python。
+入口：[`dist/mihomo-party.yaml`](https://raw.githubusercontent.com/Natsubrei/mihomo-configs/main/dist/mihomo-party.yaml)。这是 **YAML 覆写**，不是完整订阅或原生内核配置；导入它不需要 Python。
 
 ## 首次导入
 
@@ -17,7 +17,13 @@
 
 ## 远程导入与更新
 
-在 GitHub 打开 [入口文件](../dist/mihomo-party.yaml)，点击 **Raw**，复制浏览器中的完整地址。在客户端创建远程 YAML 覆写并填入该地址，再关联订阅。
+在客户端创建远程 YAML 覆写，直接填入下面的原始文件地址，再关联订阅：
+
+```text
+https://raw.githubusercontent.com/Natsubrei/mihomo-configs/main/dist/mihomo-party.yaml
+```
+
+不要填写 GitHub 的 `blob` 文件浏览页面地址。若使用自己的 Fork，请将地址中的用户名和仓库名换成自己的。
 
 - **更新机场订阅**：只要关联仍启用，客户端会重新应用覆写，节点变化不会清除公共策略。
 - **更新本项目策略**：在客户端更新远程覆写，再应用配置。

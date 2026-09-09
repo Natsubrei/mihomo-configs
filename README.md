@@ -6,8 +6,10 @@
 
 | 使用方式 | 下载 | 使用说明 |
 |---|---|---|
-| mihomo-party | [YAML 覆写](dist/mihomo-party.yaml?raw=1) | [导入与更新](docs/mihomo-party.md) |
-| Linux 原生 mihomo | [原生配置模板](dist/mihomo-linux.yaml?raw=1) | [填写订阅与运行](docs/linux.md) |
+| mihomo-party | [YAML 覆写](https://raw.githubusercontent.com/Natsubrei/mihomo-configs/main/dist/mihomo-party.yaml) | [导入与更新](docs/mihomo-party.md) |
+| Linux 原生 mihomo | [原生配置模板](https://raw.githubusercontent.com/Natsubrei/mihomo-configs/main/dist/mihomo-linux.yaml) | [填写订阅与运行](docs/linux.md) |
+
+链接直接打开原始 YAML；需要本地文件时，请另存为 `.yaml`。
 
 两个入口使用相同的分流策略，**不要把 Party 覆写当作 Linux 完整配置使用**。
 
@@ -17,7 +19,13 @@
 2. 下载上面的 **YAML 覆写**，在「覆写」中导入，并关联到订阅。
 3. 应用配置，切换到**规则模式**。默认使用「故障转移」，也可手动选择节点。
 
-需要远程更新？打开 [入口文件](dist/mihomo-party.yaml)，点击 **Raw**，将地址复制到客户端的远程 YAML 覆写中。订阅更新后，只要关联仍在，覆写会继续应用。
+需要远程更新？将下面的地址复制到客户端的远程 YAML 覆写中：
+
+```text
+https://raw.githubusercontent.com/Natsubrei/mihomo-configs/main/dist/mihomo-party.yaml
+```
+
+订阅更新后，只要关联仍在，覆写会继续应用。
 
 ## Linux：填写订阅后生成配置
 
