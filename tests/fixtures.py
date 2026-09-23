@@ -15,6 +15,9 @@ INFO_NAMES = [
     "剩余流量：100 GB", "剩餘流量：50 GB", "套餐到期：2099-01-01",
     "距离下次重置剩余：21 天", "官网地址：https://example.invalid",
     "Traffic Remaining: 100 GB", "Expire: 2099-01-01",
+    "[ss]不再支持Clash For Windows/Clash For Android",
+    "[ss]如更新未有可用节点，请更换客户端",
+    "[ss]支持的客户端详情请到官网查看使用文档",
 ]
 REGIONS = ["香港节点", "台湾节点", "日本节点", "狮城节点", "美国节点", "韩国节点", "德国节点"]
 

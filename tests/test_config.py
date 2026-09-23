@@ -72,6 +72,19 @@ class OverrideTests(unittest.TestCase):
             if group.get("include-all"):
                 self.assertEqual(group["empty-fallback"], "REJECT")
 
+    def test_failover_probes_often_enough_to_skip_dead_nodes(self):
+        failover = self.groups["故障转移"]
+        self.assertEqual(failover["type"], "fallback")
+        self.assertEqual(failover["interval"], 60)
+        self.assertEqual(failover["max-failed-times"], 2)
+        self.assertFalse(failover["lazy"])
+
+    def test_url_test_groups_probe_even_when_unselected(self):
+        for name, group in self.groups.items():
+            if group["type"] == "url-test":
+                with self.subTest(group=name):
+                    self.assertFalse(group["lazy"])
+
     def test_cycle_is_rejected(self):
         broken = deepcopy(self.config)
         broken["proxy-groups"][1]["proxies"] = ["节点选择"]

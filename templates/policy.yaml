@@ -12,7 +12,7 @@ proxy-groups:
     include-all: true
     # 保守排除信息条目，不按 GB、倍率、Music 等宽泛词过滤真实节点。
     # 命名只是启发式：信息条目可能是实际节点的别名，并非一定无效。
-    exclude-filter: &info-filter '(?i)剩余流量|剩餘流量|套餐到期|到期时间|到期時間|距离.*重置|距離.*重置|流量重置|重置时间|重置時間|订阅地址|訂閱地址|官网地址|官網地址|(^|[^A-Za-z])(traffic[ _-]*(left|remaining)|expire[sd]?|expiry)([^A-Za-z]|$)'
+    exclude-filter: &info-filter '(?i)剩余流量|剩餘流量|套餐到期|到期时间|到期時間|距离.*重置|距離.*重置|流量重置|重置时间|重置時間|订阅地址|訂閱地址|官网地址|官網地址|不再支持|更换客户端|使用文档|(^|[^A-Za-z])(traffic[ _-]*(left|remaining)|expire[sd]?|expiry)([^A-Za-z]|$)'
     empty-fallback: REJECT
     proxies:
       - 故障转移
@@ -32,11 +32,11 @@ proxy-groups:
     empty-fallback: REJECT
     # include-all 按名称排序；选择第一个健康节点，不保证最快。
     url: &test-url https://www.gstatic.com/generate_204
-    interval: 300
+    interval: 60
     timeout: 5000
     expected-status: 204
     lazy: false
-    max-failed-times: 3
+    max-failed-times: 2
 
   - name: 自动选择
     type: url-test
@@ -48,8 +48,8 @@ proxy-groups:
     timeout: 5000
     expected-status: 204
     tolerance: 100
-    lazy: true
-    max-failed-times: 3
+    lazy: false
+    max-failed-times: 2
 
   # 业务组可直接选择任意真实节点。AI/登录服务建议手动固定节点，减少出口变更。
   - name: OpenAI
@@ -164,7 +164,7 @@ proxy-groups:
     timeout: 5000
     expected-status: 204
     tolerance: 100
-    lazy: true
+    lazy: false
 
   - name: 台湾节点
     type: url-test
@@ -177,7 +177,7 @@ proxy-groups:
     timeout: 5000
     expected-status: 204
     tolerance: 100
-    lazy: true
+    lazy: false
 
   - name: 日本节点
     type: url-test
@@ -190,7 +190,7 @@ proxy-groups:
     timeout: 5000
     expected-status: 204
     tolerance: 100
-    lazy: true
+    lazy: false
 
   - name: 狮城节点
     type: url-test
@@ -203,7 +203,7 @@ proxy-groups:
     timeout: 5000
     expected-status: 204
     tolerance: 100
-    lazy: true
+    lazy: false
 
   - name: 美国节点
     type: url-test
@@ -216,7 +216,7 @@ proxy-groups:
     timeout: 5000
     expected-status: 204
     tolerance: 100
-    lazy: true
+    lazy: false
 
   - name: 韩国节点
     type: url-test
@@ -229,7 +229,7 @@ proxy-groups:
     timeout: 5000
     expected-status: 204
     tolerance: 100
-    lazy: true
+    lazy: false
 
   - name: 德国节点
     type: url-test
@@ -242,7 +242,7 @@ proxy-groups:
     timeout: 5000
     expected-status: 204
     tolerance: 100
-    lazy: true
+    lazy: false
 
 # 这里使用原生 rule-providers；仅 Party 构建产物会转换为 rule-providers!。
 # ACL4SSR .list 含 DOMAIN-SUFFIX/IP-CIDR 等前缀，必须用 classical + text。
