@@ -89,9 +89,9 @@ curl -x http://127.0.0.1:7890 https://www.gstatic.com/generate_204
 
 **已有系统服务若启动参数是 `mihomo -d /etc/mihomo`，不会读取上述用户目录。** 必须有意识地选择部署目录、备份、校验并重载对应服务；不要同时启动两个占用相同端口的进程。本工具不会替你迁移现有服务。
 
-## 多机场、文件 provider 与内联节点
+## 多个订阅、文件 provider 与内联节点
 
-- 多机场：在自己的 `proxy-providers` 中添加不同名称的条目，每个缓存 `path` 必须不同。
+- 多个订阅：在自己的 `proxy-providers` 中添加不同名称的条目，每个缓存 `path` 必须不同。
 - 文件型 provider：指定 `type: file` 和节点文件 `path`；生成器不会复制节点文件。
 - 内联节点：把节点列表放在私有文件的顶层 `proxies` 下。
 - 可以混用内联节点、HTTP/file/inline providers。
@@ -115,13 +115,13 @@ curl -x http://127.0.0.1:7890 https://www.gstatic.com/generate_204
 
 私有文件可设置 `mixed-port`、`bind-address`、`allow-lan`、`dns`、`tun`、`ipv6`、`external-controller`、`secret`、`authentication`、`profile` 等本地参数；完整允许列表见 `tools/render.py` 的 `PRIVATE_KEYS`。
 
-映射递归合并，列表替换。例如启用自定义 DNS 时必须明确设置 `dns.enable: true`，只添加 `nameserver` 不会自动启用 DNS。不要把完整机场配置原封不动作为私有输入；它通常含会替换公共策略的 `rules` 和 `proxy-groups`，工具会拒绝。
+映射递归合并，列表替换。例如启用自定义 DNS 时必须明确设置 `dns.enable: true`，只添加 `nameserver` 不会自动启用 DNS。不要把订阅下发的完整配置原封不动作为私有输入；它通常含会替换公共策略的 `rules` 和 `proxy-groups`，工具会拒绝。
 
 要通过 API/面板手动选节点，可在私有文件中启用 `127.0.0.1:9090`，并设置自己的强随机 `secret`（生成器要求至少 16 字符）。生成器仅允许回环控制地址；面板和端口转发由你管理。不需要面板时保持默认关闭。
 
 ## 之后如何更新？
 
-### 更新机场节点
+### 更新节点
 
 HTTP providers 由**mihomo 内核**按 `interval` 更新，不改公共分流配置。只是更新节点时通常不需要再次运行生成器；文件型/内联节点按你自己的更新方式处理。
 
@@ -150,4 +150,4 @@ mihomo -t -d "$HOME/.config/mihomo" \
 - HTTP provider 的订阅 URL 及生成的完整配置可能包含凭据，必须留在仓库外。
 - 生成器会拒绝示例域名 `.invalid`、已知节点重名、缓存路径冲突及策略覆盖；不是完整的 mihomo 配置验证器。
 - 不接受把自定义策略/规则塞进私有文件来覆盖公共模板；需要改策略时修改 `templates/policy.yaml` 后构建。
-- 生成工具与内核测试不使用真实机场节点；当前机器的系统代理配置不会因此自动切换。
+- 生成工具与内核测试不使用真实节点；当前机器的系统代理配置不会因此自动切换。

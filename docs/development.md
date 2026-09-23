@@ -40,7 +40,7 @@ python -m tools.render flclash --check
 
 生成器直接从 `templates/policy.yaml` 构建 `dist/flclash.js`，不会读取或修改订阅，只替换 `proxy-groups`、`rule-providers`、`rules`。不注入 Party 专用键或 `profile.store-selected`；FlClash 自己管理策略选择。
 
-未安装 Node.js 时会明确跳过脚本执行测试；生成脚本不需要 Node.js。脚本测试在 Node 的独立 JS 上下文中执行真实生成物，检查策略一致性、旧规则替换、节点/网络参数保留及重复应用。它不是 Android Flutter JS 引擎的端到端测试。
+未安装 Node.js 时会明确跳过脚本执行测试；生成脚本不需要 Node.js。脚本测试在 Node 的独立 JS 上下文中执行真实生成物，检查策略一致性、旧规则替换、节点/网络参数保留及重复应用。它不是 FlClash 内置 JS 引擎的端到端测试。
 
 启用离线内核测试：
 

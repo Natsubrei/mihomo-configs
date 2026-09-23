@@ -8,7 +8,7 @@
 |---|---|---|
 | mihomo-party | [YAML 覆写](https://raw.githubusercontent.com/Natsubrei/mihomo-configs/main/dist/mihomo-party.yaml) | [导入与更新](docs/mihomo-party.md) |
 | Linux 原生 mihomo | [原生配置模板](https://raw.githubusercontent.com/Natsubrei/mihomo-configs/main/dist/mihomo-linux.yaml) | [填写订阅与运行](docs/linux.md) |
-| FlClash（含 Android） | [JavaScript 覆写](https://raw.githubusercontent.com/Natsubrei/mihomo-configs/main/dist/flclash.js) | [脚本导入与更新](docs/flclash.md) |
+| FlClash | [JavaScript 覆写](https://raw.githubusercontent.com/Natsubrei/mihomo-configs/main/dist/flclash.js) | [脚本导入与更新](docs/flclash.md) |
 
 链接直接打开原始文件；需要本地文件时，请保留 `.yaml` / `.js` 扩展名。
 
@@ -40,7 +40,7 @@ https://raw.githubusercontent.com/Natsubrei/mihomo-configs/main/dist/flclash.js
 
 4. 返回覆写页，选中脚本，应用配置并切到**规则模式**。
 
-没有外部获取入口时，可下载 `.js` 全文粘贴到脚本编辑器。订阅更新会重新应用脚本；策略更新需要手动重新导入脚本内容。普通使用不需要 Python 或 Node.js，详见 [Android 操作指南](docs/flclash.md)。
+没有外部获取入口时，可下载 `.js` 全文粘贴到脚本编辑器。订阅更新会重新应用脚本；策略更新需要手动重新导入脚本内容。普通使用不需要 Python 或 Node.js，详见 [FlClash 使用指南](docs/flclash.md)。
 
 ## Linux：填写订阅后生成配置
 

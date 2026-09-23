@@ -17,7 +17,7 @@ proxy-providers:
       expected-status: 204
       lazy: true
 
-# 多机场：在 proxy-providers 下添加不同名称的条目，并使用不同 path。
+# 多个订阅：在 proxy-providers 下添加不同名称的条目，并使用不同 path。
 # 内联节点：也可用顶层 proxies 列表提供节点；无需指定 proxy-providers 名称。
 # 文件型 provider 的 path 相对于 mihomo -d 工作目录，生成器不会复制节点文件。
 

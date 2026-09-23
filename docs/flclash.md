@@ -1,4 +1,4 @@
-# FlClash 使用指南（Android）
+# FlClash 使用指南
 
 入口：[`dist/flclash.js`](https://raw.githubusercontent.com/Natsubrei/mihomo-configs/main/dist/flclash.js)。这是 **JavaScript 脚本覆写**，不是订阅或完整 YAML 配置；请先自备可用订阅。下载使用不需要 Python 或 Node.js。
 
@@ -14,7 +14,7 @@
    ```
 
 5. 将脚本命名为 `mihomo-configs`，保存。返回该配置的覆写页，**选中这个脚本**；只添加脚本但未关联不会生效。
-6. 返回并应用配置，切换到 **规则模式**，启动连接并允许 Android 的 VPN 授权。
+6. 返回并应用配置，切换到 **规则模式** 并启动连接。若系统弹出 VPN 授权（常见于 Android），需要允许。
 7. 在代理页确认出现「节点选择」「故障转移」「规则更新」及地区组，且组内有自己的节点。
 
 也可先下载 `.js`，通过编辑器的 **外部获取 → 通过文件导入** 导入。若你的版本没有外部获取菜单，将 `.js` 全文复制到编辑器，**替换全部默认内容**，不要只粘贴 URL 或追加第二个 `main` 函数。
@@ -30,11 +30,11 @@ Party 入口的 `rule-providers!` 是该客户端的映射替换语法，mihomo 
 - 不修改 DNS、TUN、IPv6、监听端口、局域网共享、控制接口、`profile` 等其他设置。
 - 不设置 `profile.store-selected`，策略选择由 FlClash 自己管理。
 
-FlClash 后续仍会按客户端设置覆盖网络参数，并重写 HTTP provider 的缓存路径。脚本本身不能替你接管未经过 Android VPN 的应用流量。
+FlClash 后续仍会按客户端设置覆盖网络参数，并重写 HTTP provider 的缓存路径。脚本不接管流量；未经过 FlClash（系统代理 / TUN / VPN）的应用仍走直连。
 
 ## 更新
 
-- **更新机场订阅**：更新订阅并应用配置后，已关联的脚本会重新执行；节点变化不会清除这份分流策略。
+- **更新订阅**：更新订阅并应用配置后，已关联的脚本会重新执行；节点变化不会清除这份分流策略。
 - **更新公共策略**：编辑已有脚本，再通过同一个 URL 获取新内容，保存并重新应用配置。这样保留原脚本关联，不必删除重建。
 - **URL 导入不是远程自动更新**：当前实现把下载内容保存成本地脚本，没有定时同步该 URL 的机制。
 - 不要填写 GitHub 的 `blob` 浏览页面 URL；使用自己的 Fork 时，替换用户名与仓库名，并确认已推送生成物。
@@ -61,7 +61,7 @@ python -m tools.render flclash --check
 
 **策略组为空或变成直连？**
 
-本策略依赖内核的 `include-all`、`exclude-filter`、`empty-fallback` 支持。空动态组应使用 `REJECT`，不应默默变成 `COMPATIBLE`。底层策略及脚本输出已通过 mihomo v1.19.30 离线测试；这不代表所有 FlClash 内置内核版本均兼容，也不代表完成了 Android 真机验证。
+本策略依赖内核的 `include-all`、`exclude-filter`、`empty-fallback` 支持。空动态组应使用 `REJECT`，不应默默变成 `COMPATIBLE`。底层策略及脚本输出已通过 mihomo v1.19.30 离线测试；这不代表所有 FlClash 内置内核版本均兼容，也不代表完成了各平台端到端验证。
 
 **原有自定义规则不见了？**
 
