@@ -25,30 +25,30 @@ proxy-groups:
       - 韩国节点
       - 德国节点
 
+  - name: 自动选择
+    type: url-test
+    include-all: true
+    exclude-filter: *info-filter
+    empty-fallback: REJECT
+    url: &test-url https://www.gstatic.com/generate_204
+    interval: 300
+    timeout: 3000
+    expected-status: 204
+    # 当前仍可用时不追更快的；延迟差超过 200ms 或探测失败再换。
+    tolerance: 200
+    lazy: false
+    max-failed-times: 1
+
   - name: 故障转移
     type: fallback
     include-all: true
     exclude-filter: *info-filter
     empty-fallback: REJECT
     # include-all 按名称排序；选择第一个健康节点，不保证最快。
-    url: &test-url https://www.gstatic.com/generate_204
+    url: *test-url
     interval: 60
     timeout: 3000
     expected-status: 204
-    lazy: false
-    max-failed-times: 1
-
-  - name: 自动选择
-    type: url-test
-    include-all: true
-    exclude-filter: *info-filter
-    empty-fallback: REJECT
-    url: *test-url
-    interval: 300
-    timeout: 3000
-    expected-status: 204
-    # 当前仍可用时不追更快的；延迟差超过 200ms 或探测失败再换。
-    tolerance: 200
     lazy: false
     max-failed-times: 1
 

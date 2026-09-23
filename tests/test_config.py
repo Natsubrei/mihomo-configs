@@ -81,6 +81,8 @@ class OverrideTests(unittest.TestCase):
         self.assertFalse(failover["lazy"])
 
     def test_default_selector_uses_sticky_urltest(self):
+        names = [g["name"] for g in self.config["proxy-groups"][:3]]
+        self.assertEqual(names, ["节点选择", "自动选择", "故障转移"])
         self.assertEqual(self.groups["节点选择"]["proxies"][0], "自动选择")
         auto = self.groups["自动选择"]
         self.assertEqual(auto["type"], "url-test")

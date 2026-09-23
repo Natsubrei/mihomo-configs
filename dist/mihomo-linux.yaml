@@ -33,18 +33,6 @@ proxy-groups:
   - 美国节点
   - 韩国节点
   - 德国节点
-- name: 故障转移
-  type: fallback
-  include-all: true
-  exclude-filter: (?i)剩余流量|剩餘流量|套餐到期|到期时间|到期時間|距离.*重置|距離.*重置|流量重置|重置时间|重置時間|订阅地址|訂閱地址|官网地址|官網地址|不再支持|更换客户端|使用文档|(^|[^A-Za-z])(traffic[
-    _-]*(left|remaining)|expire[sd]?|expiry)([^A-Za-z]|$)
-  empty-fallback: REJECT
-  url: https://www.gstatic.com/generate_204
-  interval: 60
-  timeout: 3000
-  expected-status: 204
-  lazy: false
-  max-failed-times: 1
 - name: 自动选择
   type: url-test
   include-all: true
@@ -56,6 +44,18 @@ proxy-groups:
   timeout: 3000
   expected-status: 204
   tolerance: 200
+  lazy: false
+  max-failed-times: 1
+- name: 故障转移
+  type: fallback
+  include-all: true
+  exclude-filter: (?i)剩余流量|剩餘流量|套餐到期|到期时间|到期時間|距离.*重置|距離.*重置|流量重置|重置时间|重置時間|订阅地址|訂閱地址|官网地址|官網地址|不再支持|更换客户端|使用文档|(^|[^A-Za-z])(traffic[
+    _-]*(left|remaining)|expire[sd]?|expiry)([^A-Za-z]|$)
+  empty-fallback: REJECT
+  url: https://www.gstatic.com/generate_204
+  interval: 60
+  timeout: 3000
+  expected-status: 204
   lazy: false
   max-failed-times: 1
 - name: OpenAI
