@@ -12,8 +12,8 @@ function main(config) {
         "exclude-filter": "(?i)剩余流量|剩餘流量|套餐到期|到期时间|到期時間|距离.*重置|距離.*重置|流量重置|重置时间|重置時間|订阅地址|訂閱地址|官网地址|官網地址|不再支持|更换客户端|使用文档|(^|[^A-Za-z])(traffic[ _-]*(left|remaining)|expire[sd]?|expiry)([^A-Za-z]|$)",
         "empty-fallback": "REJECT",
         "proxies": [
-          "故障转移",
           "自动选择",
+          "故障转移",
           "香港节点",
           "台湾节点",
           "日本节点",
@@ -31,10 +31,10 @@ function main(config) {
         "empty-fallback": "REJECT",
         "url": "https://www.gstatic.com/generate_204",
         "interval": 60,
-        "timeout": 5000,
+        "timeout": 3000,
         "expected-status": 204,
         "lazy": false,
-        "max-failed-times": 2
+        "max-failed-times": 1
       },
       {
         "name": "自动选择",
@@ -44,11 +44,11 @@ function main(config) {
         "empty-fallback": "REJECT",
         "url": "https://www.gstatic.com/generate_204",
         "interval": 300,
-        "timeout": 5000,
+        "timeout": 3000,
         "expected-status": 204,
-        "tolerance": 100,
+        "tolerance": 200,
         "lazy": false,
-        "max-failed-times": 2
+        "max-failed-times": 1
       },
       {
         "name": "OpenAI",
@@ -235,7 +235,7 @@ function main(config) {
         "timeout": 5000,
         "expected-status": 204,
         "tolerance": 100,
-        "lazy": false
+        "lazy": true
       },
       {
         "name": "台湾节点",
@@ -249,7 +249,7 @@ function main(config) {
         "timeout": 5000,
         "expected-status": 204,
         "tolerance": 100,
-        "lazy": false
+        "lazy": true
       },
       {
         "name": "日本节点",
@@ -263,7 +263,7 @@ function main(config) {
         "timeout": 5000,
         "expected-status": 204,
         "tolerance": 100,
-        "lazy": false
+        "lazy": true
       },
       {
         "name": "狮城节点",
@@ -277,7 +277,7 @@ function main(config) {
         "timeout": 5000,
         "expected-status": 204,
         "tolerance": 100,
-        "lazy": false
+        "lazy": true
       },
       {
         "name": "美国节点",
@@ -291,7 +291,7 @@ function main(config) {
         "timeout": 5000,
         "expected-status": 204,
         "tolerance": 100,
-        "lazy": false
+        "lazy": true
       },
       {
         "name": "韩国节点",
@@ -305,7 +305,7 @@ function main(config) {
         "timeout": 5000,
         "expected-status": 204,
         "tolerance": 100,
-        "lazy": false
+        "lazy": true
       },
       {
         "name": "德国节点",
@@ -319,7 +319,7 @@ function main(config) {
         "timeout": 5000,
         "expected-status": 204,
         "tolerance": 100,
-        "lazy": false
+        "lazy": true
       }
     ],
     "rule-providers": {

@@ -76,14 +76,23 @@ class OverrideTests(unittest.TestCase):
         failover = self.groups["故障转移"]
         self.assertEqual(failover["type"], "fallback")
         self.assertEqual(failover["interval"], 60)
-        self.assertEqual(failover["max-failed-times"], 2)
+        self.assertEqual(failover["timeout"], 3000)
+        self.assertEqual(failover["max-failed-times"], 1)
         self.assertFalse(failover["lazy"])
 
-    def test_url_test_groups_probe_even_when_unselected(self):
-        for name, group in self.groups.items():
-            if group["type"] == "url-test":
-                with self.subTest(group=name):
-                    self.assertFalse(group["lazy"])
+    def test_default_selector_uses_sticky_urltest(self):
+        self.assertEqual(self.groups["节点选择"]["proxies"][0], "自动选择")
+        auto = self.groups["自动选择"]
+        self.assertEqual(auto["type"], "url-test")
+        self.assertEqual(auto["tolerance"], 200)
+        self.assertEqual(auto["timeout"], 3000)
+        self.assertEqual(auto["max-failed-times"], 1)
+
+    def test_url_test_lazy_only_for_active_path(self):
+        self.assertFalse(self.groups["自动选择"]["lazy"])
+        for name in REGIONS:
+            with self.subTest(group=name):
+                self.assertTrue(self.groups[name]["lazy"])
 
     def test_cycle_is_rejected(self):
         broken = deepcopy(self.config)

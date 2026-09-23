@@ -11,8 +11,8 @@ proxy-groups:
     _-]*(left|remaining)|expire[sd]?|expiry)([^A-Za-z]|$)
   empty-fallback: REJECT
   proxies:
-  - 故障转移
   - 自动选择
+  - 故障转移
   - 香港节点
   - 台湾节点
   - 日本节点
@@ -28,10 +28,10 @@ proxy-groups:
   empty-fallback: REJECT
   url: https://www.gstatic.com/generate_204
   interval: 60
-  timeout: 5000
+  timeout: 3000
   expected-status: 204
   lazy: false
-  max-failed-times: 2
+  max-failed-times: 1
 - name: 自动选择
   type: url-test
   include-all: true
@@ -40,11 +40,11 @@ proxy-groups:
   empty-fallback: REJECT
   url: https://www.gstatic.com/generate_204
   interval: 300
-  timeout: 5000
+  timeout: 3000
   expected-status: 204
-  tolerance: 100
+  tolerance: 200
   lazy: false
-  max-failed-times: 2
+  max-failed-times: 1
 - name: OpenAI
   type: select
   include-all: true
@@ -175,7 +175,7 @@ proxy-groups:
   timeout: 5000
   expected-status: 204
   tolerance: 100
-  lazy: false
+  lazy: true
 - name: 台湾节点
   type: url-test
   include-all: true
@@ -188,7 +188,7 @@ proxy-groups:
   timeout: 5000
   expected-status: 204
   tolerance: 100
-  lazy: false
+  lazy: true
 - name: 日本节点
   type: url-test
   include-all: true
@@ -201,7 +201,7 @@ proxy-groups:
   timeout: 5000
   expected-status: 204
   tolerance: 100
-  lazy: false
+  lazy: true
 - name: 狮城节点
   type: url-test
   include-all: true
@@ -214,7 +214,7 @@ proxy-groups:
   timeout: 5000
   expected-status: 204
   tolerance: 100
-  lazy: false
+  lazy: true
 - name: 美国节点
   type: url-test
   include-all: true
@@ -228,7 +228,7 @@ proxy-groups:
   timeout: 5000
   expected-status: 204
   tolerance: 100
-  lazy: false
+  lazy: true
 - name: 韩国节点
   type: url-test
   include-all: true
@@ -241,7 +241,7 @@ proxy-groups:
   timeout: 5000
   expected-status: 204
   tolerance: 100
-  lazy: false
+  lazy: true
 - name: 德国节点
   type: url-test
   include-all: true
@@ -254,7 +254,7 @@ proxy-groups:
   timeout: 5000
   expected-status: 204
   tolerance: 100
-  lazy: false
+  lazy: true
 rule-providers!:
   LocalAreaNetwork:
     type: http
