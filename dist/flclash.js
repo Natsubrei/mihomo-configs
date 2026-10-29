@@ -61,6 +61,14 @@ function main(config) {
         ]
       },
       {
+        "name": "OpenCode",
+        "type": "select",
+        "proxies": [
+          "DIRECT",
+          "节点选择"
+        ]
+      },
+      {
         "name": "电报消息",
         "type": "select",
         "include-all": true,
@@ -608,6 +616,7 @@ function main(config) {
       "RULE-SET,Apple,苹果服务",
       "RULE-SET,Telegram,电报消息",
       "RULE-SET,OpenAI,OpenAI",
+      "DOMAIN-SUFFIX,opencode.ai,OpenCode",
       "RULE-SET,NetEaseMusic,网易音乐",
       "RULE-SET,Epic,游戏平台",
       "RULE-SET,Origin,游戏平台",

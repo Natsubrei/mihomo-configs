@@ -116,9 +116,19 @@ def validate(data: dict) -> None:
     used = set()
     for rule in rules[:-1]:
         fields = rule.split(",")
-        require(len(fields) == 3 and fields[0] == "RULE-SET", f"未知规则结构: {rule}")
-        require(fields[1] in providers and fields[2] in available, f"规则引用不存在: {rule}")
-        used.add(fields[1])
+        require(len(fields) == 3, f"未知规则结构: {rule}")
+        kind, target, group = fields
+        require(group in available, f"规则引用不存在: {rule}")
+        if kind == "RULE-SET":
+            require(target in providers, f"规则引用不存在: {rule}")
+            used.add(target)
+        elif kind in {"DOMAIN", "DOMAIN-SUFFIX"}:
+            require(
+                "." in target and not any(char in target for char in "/*? "),
+                f"内联域名规则无效: {rule}",
+            )
+        else:
+            require(False, f"未知规则结构: {rule}")
     require(used == set(providers), "存在未使用的规则集")
 
 

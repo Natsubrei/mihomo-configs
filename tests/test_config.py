@@ -80,6 +80,21 @@ class OverrideTests(unittest.TestCase):
         self.assertEqual(failover["max-failed-times"], 1)
         self.assertFalse(failover["lazy"])
 
+    def test_opencode_defaults_to_direct_before_gfwlist(self):
+        group = self.groups["OpenCode"]
+        self.assertEqual(group["type"], "select")
+        self.assertEqual(group["proxies"], ["DIRECT", "节点选择"])
+        rule = "DOMAIN-SUFFIX,opencode.ai,OpenCode"
+        self.assertIn(rule, self.config["rules"])
+        gfw = self.config["rules"].index("RULE-SET,ProxyGFWlist,节点选择")
+        self.assertLess(self.config["rules"].index(rule), gfw)
+
+    def test_unknown_inline_rule_kind_is_rejected(self):
+        broken = deepcopy(self.config)
+        broken["rules"].insert(-1, "PROCESS-NAME,pi,DIRECT")
+        with self.assertRaisesRegex(ValueError, "未知规则结构"):
+            validate(broken)
+
     def test_default_selector_uses_sticky_urltest(self):
         names = [g["name"] for g in self.config["proxy-groups"][:3]]
         self.assertEqual(names, ["节点选择", "自动选择", "故障转移"])
